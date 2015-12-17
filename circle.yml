@@ -1,0 +1,14 @@
+machine:
+  timezone:
+    Asia/Tokyo
+  ruby:
+    version: 2.2.3
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
+      - git push git@heroku.com:yt-testboard.git
+      - heroku run rake db:migrate --app yt-testboard:
+         timeout: 400
